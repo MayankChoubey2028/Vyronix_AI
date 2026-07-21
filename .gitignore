@@ -1,0 +1,33 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+build/
+dist/
+*.egg-info/
+wheels/
+
+.venv/
+.env
+.DS_Store
+.vscode/
+.idea/
+*.log
+uploads/
+vectorstore/
+
+# -----------------------------
+# Model Files (optional)
+# Uncomment if you don't want to upload large models
+# -----------------------------
+# models/
+# *.pt
+# *.onnx
+# *.bin
+# *.ckpt
+.ipynb_checkpoints/
+.pytest_cache/
+.coverage
+htmlcov/
