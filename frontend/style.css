@@ -1,0 +1,1347 @@
+/* ==========================================
+   Vyronix AI
+   Part 1
+==========================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+
+    width:100%;
+    height:100%;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:#050816;
+
+    color:white;
+
+    overflow:hidden;
+
+}
+
+/* ==========================================
+   Animated Background
+==========================================*/
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    z-index:-5;
+
+    background:
+    radial-gradient(circle at top,#15274d 0%,#050816 55%,#020308 100%);
+}
+
+/* Grid */
+
+.grid{
+
+    position:absolute;
+
+    width:200%;
+
+    height:200%;
+
+    left:-50%;
+
+    top:-50%;
+
+    background-image:
+
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+
+    background-size:70px 70px;
+
+    transform:perspective(800px) rotateX(72deg);
+
+    animation:gridMove 20s linear infinite;
+
+    opacity:.35;
+}
+
+@keyframes gridMove{
+
+    from{
+
+        transform:
+        perspective(800px)
+        rotateX(72deg)
+        translateY(0);
+
+    }
+
+    to{
+
+        transform:
+        perspective(800px)
+        rotateX(72deg)
+        translateY(70px);
+
+    }
+
+}
+
+/* ==========================================
+   Glowing Orbs
+==========================================*/
+
+.glow{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(90px);
+
+    animation:floatGlow 10s ease-in-out infinite;
+
+}
+
+.glow1{
+
+    width:350px;
+
+    height:350px;
+
+    background:#00d4ff;
+
+    top:10%;
+
+    left:8%;
+
+    opacity:.18;
+
+}
+
+.glow2{
+
+    width:450px;
+
+    height:450px;
+
+    background:#7b2cff;
+
+    right:5%;
+
+    bottom:5%;
+
+    opacity:.18;
+
+    animation-delay:3s;
+
+}
+
+@keyframes floatGlow{
+
+    0%{
+
+        transform:
+        translateY(0px)
+        scale(1);
+
+    }
+
+    50%{
+
+        transform:
+        translateY(-40px)
+        scale(1.08);
+
+    }
+
+    100%{
+
+        transform:
+        translateY(0px)
+        scale(1);
+
+    }
+
+}
+
+/* ==========================================
+   Header
+==========================================*/
+
+header{
+
+    height:80px;
+
+    width:100%;
+
+    padding:0 40px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    background:rgba(0,0,0,.15);
+
+}
+
+.logo{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.logo h1{
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:32px;
+
+    letter-spacing:2px;
+
+    color:#00d4ff;
+
+}
+
+.logo span{
+
+    margin-top:6px;
+
+    color:#9db4d8;
+
+    font-size:13px;
+
+    letter-spacing:1px;
+
+}
+
+/* ==========================================
+   Status
+==========================================*/
+
+.status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:#b8d7ff;
+
+}
+
+.dot{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#00ff8a;
+
+    box-shadow:
+
+    0 0 8px #00ff8a,
+
+    0 0 18px #00ff8a,
+
+    0 0 35px #00ff8a;
+
+    animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        transform:scale(1.35);
+
+        opacity:.5;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+/* ==========================================
+   Main Layout
+==========================================*/
+
+main{
+
+    width:100%;
+
+    height:calc(100vh - 80px);
+
+    display:grid;
+
+    grid-template-columns:
+
+    320px
+
+    1fr
+
+    420px;
+
+    gap:25px;
+
+    padding:25px;
+
+}
+
+/* ==========================================
+   Glass Card
+==========================================*/
+
+.card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+
+    0 0 35px rgba(0,212,255,.08),
+
+    inset 0 0 15px rgba(255,255,255,.03);
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+
+    0 0 40px rgba(0,212,255,.20);
+
+}
+
+/* ==========================================
+   Vyronix AI
+   Part 2
+   Left Panel • Camera • Chat
+==========================================*/
+
+/* ==========================================
+   Left Panel
+==========================================*/
+
+.left-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:22px;
+
+    overflow:hidden;
+
+}
+
+.left-panel h2{
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:18px;
+
+    color:#00d4ff;
+
+    margin-bottom:15px;
+
+}
+
+.left-panel hr{
+
+    border:none;
+
+    height:1px;
+
+    background:rgba(255,255,255,.08);
+
+    margin:20px 0;
+
+}
+
+/* ==========================================
+   Object Detection
+==========================================*/
+
+#objects{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.object{
+
+    background:rgba(0,212,255,.08);
+
+    border:1px solid rgba(0,212,255,.25);
+
+    padding:14px;
+
+    border-radius:14px;
+
+    transition:.3s;
+
+}
+
+.object:hover{
+
+    background:rgba(0,212,255,.15);
+
+    transform:translateX(6px);
+
+}
+
+/* ==========================================
+   OCR Panel
+==========================================*/
+
+#ocr{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    line-height:1.7;
+
+    color:#d7e6ff;
+
+    font-size:15px;
+
+}
+
+.empty{
+
+    color:#7d94b6;
+
+    font-style:italic;
+
+}
+
+/* ==========================================
+   Scrollbar
+==========================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#00d4ff;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:transparent;
+
+}
+
+/* ==========================================
+   Center Panel
+==========================================*/
+
+.center-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* ==========================================
+   Camera Card
+==========================================*/
+
+.camera-card{
+
+    position:relative;
+
+    width:100%;
+
+    height:600px;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:black;
+
+    border:2px solid rgba(0,212,255,.25);
+
+    box-shadow:
+
+    0 0 35px rgba(0,212,255,.18);
+
+}
+
+/* Animated Border */
+
+.camera-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-2px;
+
+    border-radius:30px;
+
+    background:linear-gradient(
+
+        45deg,
+
+        #00d4ff,
+
+        #6b5cff,
+
+        #00d4ff
+
+    );
+
+    background-size:300%;
+
+    animation:borderFlow 6s linear infinite;
+
+    z-index:-1;
+
+}
+
+@keyframes borderFlow{
+
+    0%{
+
+        background-position:0%;
+
+    }
+
+    100%{
+
+        background-position:300%;
+
+    }
+
+}
+
+/* ==========================================
+   Video
+==========================================*/
+
+#camera{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+#canvas{
+
+    display:none;
+
+}
+
+/* ==========================================
+   LIVE Badge
+==========================================*/
+
+.camera-overlay{
+
+    position:absolute;
+
+    top:20px;
+
+    left:20px;
+
+    padding:8px 18px;
+
+    background:red;
+
+    color:white;
+
+    font-size:13px;
+
+    border-radius:40px;
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    animation:blink 1s infinite;
+
+}
+
+@keyframes blink{
+
+    0%{
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        opacity:.4;
+
+    }
+
+    100%{
+
+        opacity:1;
+
+    }
+
+}
+
+/* ==========================================
+   Camera Controls
+==========================================*/
+
+.controls{
+
+    margin-top:22px;
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+.controls button{
+
+    padding:14px 28px;
+
+    border:none;
+
+    border-radius:40px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:linear-gradient(
+
+        90deg,
+
+        #00d4ff,
+
+        #4b5cff
+
+    );
+
+    transition:.35s;
+
+}
+
+.controls button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+
+    0 0 20px #00d4ff;
+
+}
+
+/* ==========================================
+   Right Panel
+==========================================*/
+
+.right-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:22px;
+
+}
+
+.right-panel h2{
+
+    font-family:'Orbitron',sans-serif;
+
+    color:#00d4ff;
+
+    margin-bottom:20px;
+
+}
+
+/* ==========================================
+   Chat Box
+==========================================*/
+
+#chatBox{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    padding-right:5px;
+
+}
+
+/* ==========================================
+   Messages
+==========================================*/
+
+.message{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    padding:15px;
+
+    animation:fadeIn .35s;
+
+}
+
+.message strong{
+
+    color:#00d4ff;
+
+    display:block;
+
+    margin-bottom:8px;
+
+}
+
+.message p{
+
+    color:#e7f2ff;
+
+    line-height:1.6;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   Chat Input
+==========================================*/
+
+.chat-input{
+
+    margin-top:20px;
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.chat-input input{
+
+    flex:1;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:40px;
+
+    outline:none;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+.chat-input input::placeholder{
+
+    color:#8fa9d4;
+
+}
+
+.chat-input button{
+
+    width:120px;
+
+    border:none;
+
+    border-radius:40px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    color:white;
+
+    background:linear-gradient(
+
+        90deg,
+
+        #00d4ff,
+
+        #6b5cff
+
+    );
+
+    transition:.3s;
+
+}
+
+.chat-input button:hover{
+
+    transform:scale(1.05);
+
+    box-shadow:0 0 20px rgba(0,212,255,.5);
+
+}
+/* ==========================================
+   Vyronix AI
+   Part 3
+   Bottom Panel • Footer • Responsive
+==========================================*/
+
+/* ==========================================
+   Bottom Section
+==========================================*/
+
+.bottom{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+
+    padding:0 25px 25px;
+
+}
+
+.bottom .card{
+
+    padding:22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.bottom h2{
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:18px;
+
+    color:#00d4ff;
+
+}
+
+/* ==========================================
+   Voice Assistant
+==========================================*/
+
+.voice{
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+}
+
+#micBtn{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:36px;
+
+    color:white;
+
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #5b4dff
+    );
+
+    box-shadow:
+
+    0 0 20px rgba(0,212,255,.4),
+    0 0 45px rgba(91,77,255,.3);
+
+    transition:.35s;
+
+}
+
+#micBtn:hover{
+
+    transform:scale(1.12);
+
+    box-shadow:
+
+    0 0 30px #00d4ff,
+    0 0 60px #6b5cff;
+
+}
+
+#micBtn:active{
+
+    transform:scale(.95);
+
+}
+
+#voiceStatus{
+
+    color:#b9c9e9;
+
+    font-size:15px;
+
+}
+
+/* ==========================================
+   Upload
+==========================================*/
+
+.upload input[type=file]{
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    color:white;
+
+}
+
+.upload button{
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    color:white;
+
+    background:linear-gradient(
+        90deg,
+        #00d4ff,
+        #4f46e5
+    );
+
+    transition:.3s;
+
+}
+
+.upload button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 20px rgba(0,212,255,.45);
+
+}
+
+/* ==========================================
+   Website Loader
+==========================================*/
+
+.website input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.07);
+
+    color:white;
+
+}
+
+.website input::placeholder{
+
+    color:#94a8cb;
+
+}
+
+.website button{
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:linear-gradient(
+        90deg,
+        #00d4ff,
+        #6b5cff
+    );
+
+    transition:.3s;
+
+}
+
+.website button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 18px rgba(0,212,255,.45);
+
+}
+
+/* ==========================================
+   Footer
+==========================================*/
+
+footer{
+
+    width:100%;
+
+    text-align:center;
+
+    padding:18px;
+
+    color:#7d93b6;
+
+    font-size:14px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+}
+
+/* ==========================================
+   Floating Animation
+==========================================*/
+
+.card{
+
+    animation:floatCard 7s ease-in-out infinite;
+
+}
+
+.card:nth-child(2){
+
+    animation-delay:1s;
+
+}
+
+.card:nth-child(3){
+
+    animation-delay:2s;
+
+}
+
+.card:nth-child(4){
+
+    animation-delay:3s;
+
+}
+
+@keyframes floatCard{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* ==========================================
+   Neon Selection
+==========================================*/
+
+::selection{
+
+    background:#00d4ff;
+
+    color:#000;
+
+}
+
+/* ==========================================
+   Input Focus
+==========================================*/
+
+input:focus{
+
+    box-shadow:
+
+    0 0 15px rgba(0,212,255,.45);
+
+}
+
+/* ==========================================
+   Responsive
+==========================================*/
+
+@media(max-width:1400px){
+
+    main{
+
+        grid-template-columns:
+
+        280px
+
+        1fr
+
+        360px;
+
+    }
+
+}
+
+@media(max-width:1100px){
+
+    body{
+
+        overflow:auto;
+
+    }
+
+    main{
+
+        grid-template-columns:1fr;
+
+        height:auto;
+
+    }
+
+    .camera-card{
+
+        height:420px;
+
+    }
+
+    .bottom{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    header{
+
+        padding:20px;
+
+        flex-direction:column;
+
+        height:auto;
+
+        gap:15px;
+
+    }
+
+    .logo h1{
+
+        font-size:24px;
+
+    }
+
+    .logo span{
+
+        text-align:center;
+
+    }
+
+    main{
+
+        padding:15px;
+
+        gap:18px;
+
+    }
+
+    .camera-card{
+
+        height:300px;
+
+    }
+
+    .controls{
+
+        flex-direction:column;
+
+        width:100%;
+
+    }
+
+    .controls button{
+
+        width:100%;
+
+    }
+
+    .chat-input{
+
+        flex-direction:column;
+
+    }
+
+    .chat-input button{
+
+        width:100%;
+
+        height:52px;
+
+    }
+
+    #micBtn{
+
+        width:75px;
+
+        height:75px;
+
+        font-size:30px;
+
+    }
+
+    footer{
+
+        font-size:12px;
+
+    }
+
+}
+
+/* ==========================================
+   End of File
+==========================================*/

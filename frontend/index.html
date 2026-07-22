@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vyronix AI</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Animated Background -->
+
+    <div class="background">
+
+        <div class="grid"></div>
+
+        <div class="glow glow1"></div>
+
+        <div class="glow glow2"></div>
+
+    </div>
+
+    <!-- Header -->
+
+    <header>
+
+        <div class="logo">
+
+            <h1>Vyronix AI</h1>
+
+            <span>Perceive • Reason • Retrieve • Respond</span>
+
+        </div>
+
+        <div class="status">
+
+            <div class="dot"></div>
+
+            <p>System Online</p>
+
+        </div>
+
+    </header>
+
+    <!-- Main -->
+
+    <main>
+
+        <!-- Left Panel -->
+
+        <section class="left-panel card">
+
+            <h2>Detected Objects</h2>
+
+            <div id="objects">
+
+                <div class="empty">
+                    Waiting for camera...
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h2>OCR Result</h2>
+
+            <div id="ocr">
+
+                <div class="empty">
+                    No text detected.
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Camera -->
+
+        <section class="center-panel">
+
+            <div class="camera-card">
+
+                <video id="camera" autoplay playsinline></video>
+
+                <canvas id="canvas"></canvas>
+
+                <div class="camera-overlay">
+
+                    LIVE
+
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button id="cameraBtn">
+
+                    Start Camera
+
+                </button>
+
+                <button id="captureBtn">
+
+                    Capture Frame
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- Chat -->
+
+        <section class="right-panel card">
+
+            <h2>Vyronix Assistant</h2>
+
+            <div id="chatBox">
+
+            </div>
+
+            <div class="chat-input">
+
+                <input
+                    id="question"
+                    type="text"
+                    placeholder="Ask Vyronix anything..."
+                >
+
+                <button id="sendBtn">
+
+                    Send
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Bottom Section -->
+
+    <section class="bottom">
+
+        <!-- Voice -->
+
+        <div class="voice card">
+
+            <h2>Voice Assistant</h2>
+
+            <button id="micBtn">
+
+                🎤
+
+            </button>
+
+            <p id="voiceStatus">
+
+                Click to Speak
+
+            </p>
+
+        </div>
+
+        <!-- Upload -->
+
+        <div class="upload card">
+
+            <h2>Upload Knowledge</h2>
+
+            <input
+                type="file"
+                id="pdfFile"
+            >
+
+            <button id="uploadBtn">
+
+                Upload
+
+            </button>
+
+        </div>
+
+        <!-- Website -->
+
+        <div class="website card">
+
+            <h2>Website RAG</h2>
+
+            <input
+                type="text"
+                id="websiteUrl"
+                placeholder="https://example.com"
+            >
+
+            <button id="websiteBtn">
+
+                Add Website
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+
+        Vyronix AI © 2026
+
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
