@@ -59,6 +59,7 @@ Vyronix_AI/
 ├── backend/
 ├── vision/
 ├── rag/
+|     └──loaders/
 ├── agent/
 ├── memory/
 ├── speech/
@@ -67,6 +68,7 @@ Vyronix_AI/
 │
 ├── .env
 ├── pyproject.toml
+├── config.py
 ├── uv.lock
 └── README.md
 ```

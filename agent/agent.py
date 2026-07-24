@@ -8,6 +8,8 @@ from .graph import execute_tools
 
 from .prompts import build_prompt
 
+from .tools import add_to_history
+
 
 load_dotenv()
 
@@ -39,4 +41,9 @@ def ask(question, db):
         ]
     )
 
-    return response.choices[0].message.content
+    answer = response.choices[0].message.content
+
+    # Record this turn so the next question has real chat history
+    add_to_history(question, answer)
+
+    return answer

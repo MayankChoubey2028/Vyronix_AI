@@ -24,8 +24,11 @@ const pdfFile = document.getElementById("pdfFile");
 const websiteBtn = document.getElementById("websiteBtn");
 const websiteUrl = document.getElementById("websiteUrl");
 
+const micBtn = document.getElementById("micBtn");
+const voiceStatus = document.getElementById("voiceStatus");
+
 // ================================
-// Start Camera
+// Start Camera (browser preview only)
 // ================================
 
 cameraBtn.onclick = async () => {
@@ -49,9 +52,39 @@ cameraBtn.onclick = async () => {
 };
 
 // ================================
-// Capture Frame
+// Live Vision Polling
+// The backend camera runs continuously and updates scene_memory in the
+// background - we just poll for the latest result every couple seconds.
+// No button click needed anymore.
 // ================================
 
+const VISION_POLL_INTERVAL_MS = 2000;
+
+async function pollVisionLive() {
+
+    try {
+
+        const response = await fetch(API + "/vision/live");
+        const data = await response.json();
+
+        updateObjects(data.objects);
+        updateOCR(data.text && data.text.length > 0 ? data.text : "No text detected.");
+
+    } catch (err) {
+
+        console.log(err);
+        updateOCR("Backend not running.");
+
+    }
+
+}
+
+// Start polling as soon as the page loads
+setInterval(pollVisionLive, VISION_POLL_INTERVAL_MS);
+pollVisionLive();
+
+// Capture button now just freezes a snapshot on the browser preview canvas
+// for visual reference - it does not trigger the backend (which is always scanning)
 captureBtn.onclick = () => {
 
     const ctx = canvas.getContext("2d");
@@ -67,7 +100,7 @@ captureBtn.onclick = () => {
         canvas.height
     );
 
-    console.log("Frame Captured");
+    console.log("Snapshot taken (browser preview only)");
 
 };
 
@@ -213,6 +246,98 @@ websiteBtn.onclick = async () => {
 };
 
 // ================================
+// Voice Assistant (record -> /voice/ask -> play response)
+// ================================
+
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+
+micBtn.onclick = async () => {
+
+    if (!isRecording) {
+
+        try {
+
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = (e) => {
+                audioChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+
+                const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+
+                voiceStatus.textContent = "Processing...";
+
+                await sendVoice(audioBlob);
+
+                voiceStatus.textContent = "Click to Speak";
+
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+
+            voiceStatus.textContent = "Listening... click again to stop";
+            micBtn.textContent = "⏹️";
+
+        } catch (err) {
+
+            alert("Microphone access denied.");
+            console.log(err);
+
+        }
+
+    } else {
+
+        mediaRecorder.stop();
+        isRecording = false;
+        micBtn.textContent = "🎤";
+
+    }
+
+};
+
+async function sendVoice(audioBlob) {
+
+    const formData = new FormData();
+    formData.append("file", audioBlob, "voice.webm");
+
+    try {
+
+        const response = await fetch(API + "/voice/ask", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+            addMessage("Vyronix", data.error);
+            return;
+        }
+
+        addMessage("You", data.question);
+        addMessage("Vyronix", data.answer);
+
+        const audio = new Audio("data:audio/mpeg;base64," + data.audio_base64);
+        audio.play();
+
+    } catch (err) {
+
+        addMessage("Vyronix", "Voice request failed.");
+        console.log(err);
+
+    }
+
+}
+
+// ================================
 // Add Chat Bubble
 // ================================
 
@@ -251,7 +376,7 @@ question.addEventListener("keypress", function (e) {
 });
 
 // ================================
-// Placeholder for OCR
+// Update OCR Panel
 // ================================
 
 function updateOCR(text) {
@@ -261,7 +386,7 @@ function updateOCR(text) {
 }
 
 // ================================
-// Placeholder for Object Detection
+// Update Object Detection Panel
 // ================================
 
 function updateObjects(objects) {
@@ -269,6 +394,11 @@ function updateObjects(objects) {
     const panel = document.getElementById("objects");
 
     panel.innerHTML = "";
+
+    if (!objects || objects.length === 0) {
+        panel.innerHTML = `<div class="empty">No objects detected.</div>`;
+        return;
+    }
 
     objects.forEach(obj => {
 
